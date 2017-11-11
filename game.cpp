@@ -82,7 +82,7 @@ int game(int lv)
 int main()
 {
     FILE *fp;
-    int lev,result;
+    int lev,result,exp=0,old[6];
     char inp='u';
     cout<<"                 ***World of Magic***\n";
     cout<<"             ***PRESS ANY KEY TO START***\n";
@@ -93,7 +93,7 @@ int main()
     if(fp!=NULL)
     {
        cout<<"Welcome back, "<<play.name<<".\n";
-       fscanf(fp,"%d%d%d%d",&play.off,&play.def,&play.hp,&lev);
+       fscanf(fp,"%d%d%d%d%d",&play.off,&play.def,&play.hp,&lev,&exp);
        play.maxhp=play.hp;
        fclose(fp);
     }
@@ -115,22 +115,31 @@ int main()
             lev++;
         }
         else cout<<"Defeated.";
-        cout<<"\nDo you want to play again(y/n)?";
+        old[1]=exp;
+        exp+=10*(4-result);
+        old[2]=play.off;
+        old[3]=play.def;
+        old[4]=play.hp;
+        play.off=15+10*exp/30;
+        play.def=3+2*exp/30;
+        play.hp=40+15*exp/30;
+        play.maxhp=play.hp;
+        cout<<"Experience: "<<old[1]<<" -> "<<exp<<endl;
+        cout<<"Attack: "<<old[2]<<" -> "<<play.off<<endl;
+        cout<<"Defence: "<<old[3]<<" -> "<<play.def<<endl;
+        cout<<"HP: "<<old[4]<<" -> "<<play.hp<<endl;
+        cout<<"Do you want to continue?(y/n)?";
         inp='p';
         while(inp!='y'&&inp!='n')
         {
             inp=getchar();
             //cout<<1;
         }
-        play.off=15+10*lev;
-        play.def=3+2*lev;
-        play.hp=40+15*lev;
-        play.maxhp=play.hp;
         if(inp=='n')break;
     }
     fp=fopen(play.name.c_str(),"w");
     cout<<"Writing File..."<<endl;
-    fprintf(fp,"%d %d %d %d",play.off,play.def,play.hp,lev);
+    fprintf(fp,"%d %d %d %d %d",play.off,play.def,play.hp,lev,exp);
     cout<<"bye.";
     fclose(fp);
     return 0;

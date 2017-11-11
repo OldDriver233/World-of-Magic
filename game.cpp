@@ -8,6 +8,12 @@ struct player{
     int off,def,hp,maxhp;
 }play,enemy[5];
 string nameof[5]={" ","Small Monster","Medium Monster","Big Monster"};
+string weapon[5]={"None","Sword","Shuriken","Magic Wand","Bomb"};
+int addoff[5]={0,2,3,5,8};
+string armor[5]={"None","Wooden Armor","Cloth Armor","Iron Armor","Shield"};
+int adddef[5]={0,1,2,3,5};
+//int dropw[5]={0,2,6,10,14};
+//int dropa[5]={0,4,8,12,16};
 int game(int lv)
 {
     int i,remainMon=3,choice;
@@ -86,7 +92,7 @@ int game(int lv)
 int main()
 {
     FILE *fp;
-    int lev,result,exp=0,old[6];
+    int lev,result,exp=0,old[6],prefw,prefa;
     char inp='u';
     cout<<"                 ***World of Magic***\n";
     cout<<"             ***PRESS ANY KEY TO START***\n";
@@ -97,7 +103,7 @@ int main()
     if(fp!=NULL)
     {
        cout<<"Welcome back, "<<play.name<<".\n";
-       fscanf(fp,"%d%d%d%d%d",&play.off,&play.def,&play.hp,&lev,&exp);
+       fscanf(fp,"%d%d%d%d%d%d%d",&play.off,&play.def,&play.hp,&lev,&exp,&prefw,&prefa);
        play.maxhp=play.hp;
        fclose(fp);
     }
@@ -132,6 +138,24 @@ int main()
         cout<<"Attack: "<<old[2]<<" -> "<<play.off<<endl;
         cout<<"Defence: "<<old[3]<<" -> "<<play.def<<endl;
         cout<<"HP: "<<old[4]<<" -> "<<play.hp<<endl;
+        if((lev-1)%4==0 && lev!=1 && lev<=17)
+        {
+            cout<<"You've found the ";
+            prefa=(lev-1)/4;
+            cout<<armor[prefa];
+            cout<<"! Defence increase to ";
+            play.def+=adddef[prefa];
+            cout<<play.def<<endl;
+        }
+        else if((lev-1)%2==0 && lev<=15)
+        {
+            cout<<"You've found the ";
+            prefw=(lev+1)/4;
+            cout<<weapon[prefw];
+            cout<<"! Attack increase to ";
+            play.off+=addoff[prefw];
+            cout<<play.off<<endl;
+        }
         cout<<"Do you want to continue?(y/n)?";
         inp='p';
         while(inp!='y'&&inp!='n')
@@ -143,7 +167,7 @@ int main()
     }
     fp=fopen(play.name.c_str(),"w");
     cout<<"Writing File..."<<endl;
-    fprintf(fp,"%d %d %d %d %d",play.off,play.def,play.hp,lev,exp);
+    fprintf(fp,"%d %d %d %d %d %d %d",play.off,play.def,play.hp,lev,exp,prefw,prefa);
     cout<<"bye.";
     fclose(fp);
     return 0;

@@ -55,7 +55,11 @@ int game(int lv)
             cout<<"You defeated the "<<enemy[4-remainMon].name<<" .\n";
             remainMon--;
         }
-        if(remainMon==0)break;
+        if(remainMon==0)
+        {
+            system("clear");
+            break;
+        }
         cout<<enemy[4-remainMon].name<<endl;
         cout<<"HP:";
         //cout<<endl;
@@ -69,7 +73,7 @@ int game(int lv)
         cout<<enemy[4-remainMon].hp<<"/"<<enemy[4-remainMon].maxhp;
         cout<<endl<<"Attack:"<<enemy[4-remainMon].off;
         cout<<" Defence:"<<enemy[4-remainMon].def;
-        if(res<=5)
+        if(res<=10)
         {
             enemy[4-remainMon].hp+=enemy[4-remainMon].off/2;
             if(enemy[4-remainMon].hp>enemy[4-remainMon].maxhp)enemy[4-remainMon].hp=enemy[4-remainMon].maxhp;
@@ -120,9 +124,9 @@ int main()
         old[2]=play.off;
         old[3]=play.def;
         old[4]=play.hp;
-        play.off=15+10*exp/30;
+        play.off=15+5*exp/30;
         play.def=3+2*exp/30;
-        play.hp=40+15*exp/30;
+        play.hp=40+10*exp/30;
         play.maxhp=play.hp;
         cout<<"Experience: "<<old[1]<<" -> "<<exp<<endl;
         cout<<"Attack: "<<old[2]<<" -> "<<play.off<<endl;
